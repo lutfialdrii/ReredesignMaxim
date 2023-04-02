@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 public class introAppActivity extends AppCompatActivity {
 
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +21,14 @@ public class introAppActivity extends AppCompatActivity {
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 } finally {
-                    startActivity(new Intent(introAppActivity.this, LoginActivity.class));
+
+                    sessionManager = new SessionManager(introAppActivity.this);
+
+                    if(!sessionManager.isLoggedIn()){
+                        startActivity(new Intent(introAppActivity.this, LoginActivity.class));
+                    } else {
+                        startActivity(new Intent(introAppActivity.this, MainActivity.class));
+                    }
                     finish();
                 }
             }

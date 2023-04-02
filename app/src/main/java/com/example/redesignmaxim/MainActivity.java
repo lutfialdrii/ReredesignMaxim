@@ -1,16 +1,20 @@
 package com.example.redesignmaxim;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SessionManager sessionManager;
+    TextView tvName;
 
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFavoritMenu.setOnClickListener(this);
         ImageButton btnMenuMenu = findViewById(R.id.btnmenu);
         btnMenuMenu.setOnClickListener(this);
+
+        sessionManager = new SessionManager(MainActivity.this);
+
+        tvName = findViewById(R.id.tvNamee);
+        String username = sessionManager.getUserDetail().get(SessionManager.USERNAME);
+        tvName.setText("Hi "+username+"!");
+
     }
     public void onClick(View v) {
         if (v.getId() == R.id.btnhistory) {

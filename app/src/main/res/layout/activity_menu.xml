@@ -7,7 +7,22 @@
     tools:context=".MenuActivity"
     android:background="@drawable/menutnp">
 
+    <Button
+        android:id="@+id/btnLogout"
+        android:backgroundTint="@color/white"
+        android:text="Logout"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.844" />
+
     <TableRow
+        android:id="@+id/tableRow"
         android:layout_width="390dp"
         android:layout_height="41dp"
         app:layout_constraintBottom_toBottomOf="parent"

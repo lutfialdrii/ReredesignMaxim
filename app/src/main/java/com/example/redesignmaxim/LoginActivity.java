@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.redesignmaxim.api.ApiClient;
 import com.example.redesignmaxim.api.ApiInterface;
 import com.example.redesignmaxim.model.login.Login;
+import com.example.redesignmaxim.model.login.LoginData;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +27,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView tvRegister;
 
     ApiInterface apiInterface;
+
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +65,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginCall.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
+                sessionManager = new SessionManager(LoginActivity.this);
+                LoginData logindata = response.body().getData();
+
+                sessionManager.createLoginSession(logindata);
+
                 if(response.body() != null && response.isSuccessful() && response.body().isStatus()){
                     Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-
+                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }

@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
-
+    Button btnLogout;
+    SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +23,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         btnFavoritMenu.setOnClickListener(this);
         ImageButton btnDashboardMenu = findViewById(R.id.btndashboard);
         btnDashboardMenu.setOnClickListener(this);
+        Button btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(this);
+
+        sessionManager = new SessionManager(MenuActivity.this);
     }
 
     public void onClick(View v) {
@@ -31,6 +38,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         } else if (v.getId() == R.id.btndashboard) {
             Intent i = new Intent(MenuActivity.this, MainActivity.class);
+            startActivity(i);
+        } else if (v.getId() == R.id.btnLogout){
+            sessionManager.logoutSession();
+            Intent i = new Intent(MenuActivity.this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(i);
         }
 
