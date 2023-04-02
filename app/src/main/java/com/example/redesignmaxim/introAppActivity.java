@@ -19,7 +19,7 @@ public class introAppActivity extends AppCompatActivity {
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 } finally {
-                    startActivity(new Intent(introAppActivity.this, MainActivity.class));
+                    startActivity(new Intent(introAppActivity.this, LoginActivity.class));
                     finish();
                 }
             }
