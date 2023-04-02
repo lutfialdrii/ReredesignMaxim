@@ -8,6 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.redesignmaxim.api.ApiClient;
+import com.example.redesignmaxim.api.ApiInterface;
+import com.example.redesignmaxim.model.register.Register;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
     EditText etUsername, etPassword, etName;
@@ -15,6 +24,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     TextView tvLogin;
 
     String Username, Password, Name;
+
+    ApiInterface apiInterface;
 
 
     @Override
@@ -51,7 +62,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void register(String username, String password, String name) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<Register> call = apiInterface.registerResponse(username, password, name);
+        call.enqueue(new Callback<Register>() {
+            @Override
+            public void onResponse(Call<Register> call, Response<Register> response) {
+                if(response.body() != null && response.isSuccessful() && response.body().isStatus()){
+                    Toast.makeText(RegisterActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    Toast.makeText(RegisterActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Register> call, Throwable t) {
+
+            }
+        });
+
     }
 }
